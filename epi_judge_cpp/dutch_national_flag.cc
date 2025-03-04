@@ -7,10 +7,27 @@
 using std::vector;
 enum class Color { kRed, kWhite, kBlue };
 
+// This is such a blatant repeat of the last problem I'm not going to restate it. And I'm doing the boring solution.
+
 void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
-  // TODO - you fill in here.
-  return;
+  vector<Color>& A = *A_ptr;
+  int end_red_idx = 0;
+  for (int i = 0; i < std::size(A); ++i) {
+	  if (A[i] == Color::kRed) {
+		std::swap(A[i], A[end_red_idx++]);
+	  }
+  }
+
+  int end_white_idx = end_red_idx;
+  for (int j = 0; j < std::size(A); ++j) {
+	if (A[j] == Color::kWhite) {
+		std::swap(A[j], A[end_white_idx++]);
+	}
+  }
 }
+
+// O(N).
+
 void DutchFlagPartitionWrapper(TimedExecutor& executor, const vector<int>& A,
                                int pivot_idx) {
   vector<Color> colors;

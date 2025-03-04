@@ -3,10 +3,22 @@
 #include "test_framework/generic_test.h"
 using std::string;
 
+// Input: Two strings, one a letter
+
 bool IsLetterConstructibleFromMagazine(const string& letter_text,
                                        const string& magazine_text) {
-  // TODO - you fill in here.
-  return true;
+  std::unordered_map<char, int> letter_freqs;
+  for (const auto& letter : letter_text) {
+  	++letter_freqs[letter];
+  }
+  
+  for (const auto& ch : magazine_text) {
+  	if (letter_freqs.count(ch) && --letter_freqs[ch] == 0) {
+  		letter_freqs.erase(ch);
+  		if (std::empty(letter_freqs)) return true;
+  	}
+  }
+  return std::empty(letter_freqs);
 }
 
 int main(int argc, char* argv[]) {

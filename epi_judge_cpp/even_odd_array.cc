@@ -6,10 +6,22 @@
 #include "test_framework/timed_executor.h"
 using std::vector;
 
+// Input: An array of integers.
+// Output: The array of integers with all even numbers coming before the odd ones.
+// Classic partition problem.
+
 void EvenOdd(vector<int>* A_ptr) {
-  // TODO - you fill in here.
-  return;
+  vector<int>& A = *A_ptr;
+  int cur_even_idx = 0;
+  for (int i = 0; i < std::size(A); ++i) {
+	if (A[i] % 2 == 0) {
+		std::swap(A[i], A[cur_even_idx++]);
+	}
+  }
 }
+
+// O(N).
+
 void EvenOddWrapper(TimedExecutor& executor, vector<int> A) {
   std::multiset<int> before(begin(A), end(A));
 
