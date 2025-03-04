@@ -5,9 +5,23 @@
 #include "test_framework/timed_executor.h"
 using std::vector;
 
+// Input: a sorted container A with unique elements.
+// Output: An entry equal to its index, if it exists, -1 if it doesn't. Note that since the elements are all unique, there can only be at most one solution.
+
+// Binary search. This time, since the solution is unique, we can short circuit immediately if we find it, and if we hit the base case, we'll know we've failed.
+
+int Searcher(const vector<int>& A, int left_idx, int right_idx) {
+	// Terminal case: if we never short-circuit before this, we've failed.
+	if (left_idx > right_idx) return -1;
+	int mid_idx = left_idx + (right_idx-left_idx)/2;
+	// Decision logic: First, check to see if we have an answer. If we don't, then what can we eliminate from the solution space? Here is wisdom-since the elements are unique, if the element is greater than its index, any element at a higher index will be as well, and vice versa.
+	return (A[mid_idx] == mid_idx) ? mid_idx : (A[mid_idx] > mid_idx) ? Searcher(A, left_idx, mid_idx-1) : Searcher(A, mid_idx+1, right_idx);
+}
+
+// Time complexity: O(log(N)).
+
 int SearchEntryEqualToItsIndex(const vector<int>& A) {
-  // TODO - you fill in here.
-  return 0;
+  return Searcher(A, 0, std::size(A)-1);
 }
 void SearchEntryEqualToItsIndexWrapper(TimedExecutor& executor,
                                        const vector<int>& A) {
